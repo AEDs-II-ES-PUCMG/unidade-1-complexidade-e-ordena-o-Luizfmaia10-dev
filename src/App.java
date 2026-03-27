@@ -54,5 +54,31 @@ public class App {
         *Fazer a implementacao do restante do main para a ordenacao 
         *  com os algoritmos InsertionSort e SelectionSort
         */
+
+        Integer[] vetorInsert = gerarVetorObjetos(tamanhosTesteMedio);
+        InsertionSort<Integer> insert = new InsertionSort<>();
+        Integer[] vetorOrdenadoinsert = insert.ordenar(vetorInsert);
+
+        System.out.println("\nVetor ordenado método Insertion:");
+        System.out.println("Comparações: " + insert.getComparacoes());
+        System.out.println("Movimentações: " + insert.getMovimentacoes());
+        System.out.println("Tempo de ordenação (ms): " + insert.getTempoOrdenacao());]
+
+        /*
+
+        --Selection--
+
+         */
+
+
+        Integer[] vetorSelection = gerarVetorObjetos(tamanhosTestePequeno);
+        SelectionSort<Integer> selection = new SelectionSort<>();
+        Integer[] vetorOrdenadoselection = insert.ordenar(vetorSelection);
+
+        System.out.println("\nVetor ordenado método Selection:");
+        System.out.println("Comparações: " + selection.getComparacoes());
+        System.out.println("Movimentações: " + selection.getMovimentacoes());
+        System.out.println("Tempo de ordenação (ms): " + selection.getTempoOrdenacao());]
+
     }
 }
