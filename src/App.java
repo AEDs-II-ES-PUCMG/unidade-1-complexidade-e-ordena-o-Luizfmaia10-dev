@@ -38,6 +38,10 @@ public class App {
 
 
     public static void main(String[] args) {
+
+        //Bolha
+
+
         int tam = 20;
         Integer[] vetor = gerarVetorObjetos(tam);
 
@@ -54,6 +58,8 @@ public class App {
         *Fazer a implementacao do restante do main para a ordenacao 
         *  com os algoritmos InsertionSort e SelectionSort
         */
+
+        //Insert
 
         Integer[] vetorInsert = gerarVetorObjetos(tamanhosTesteMedio);
         InsertionSort<Integer> insert = new InsertionSort<>();
