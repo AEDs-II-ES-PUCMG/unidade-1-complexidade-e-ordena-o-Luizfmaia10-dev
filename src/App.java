@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class App {
     static final int[] tamanhosTesteGrande =  { 31_250_000, 62_500_000, 125_000_000, 250_000_000, 500_000_000 };
@@ -39,8 +40,19 @@ public class App {
 
     public static void main(String[] args) {
 
-        //Bolha
+        System.out.println("Escolha qual metodo de Ordenação vc quer:");
+                System.out.println("1-BubbleSort");
+                System.out.println("2-InsertSort");
+                System.out.println("3-SelectionSort");
+                System.out.println("4-MergeSort");
+                Scanner leitor = new Scanner(System.in);
+                int x = leitor.nextInt();
 
+         switch (x) {
+            case 1:
+
+
+        //Bolha
 
         int tam = 20;
         Integer[] vetor = gerarVetorObjetos(tam);
@@ -53,13 +65,11 @@ public class App {
         System.out.println("Comparações: " + bolha.getComparacoes());
         System.out.println("Movimentações: " + bolha.getMovimentacoes());
         System.out.println("Tempo de ordenação (ms): " + bolha.getTempoOrdenacao());
+        break;
 
-        /* TO DO
-        *Fazer a implementacao do restante do main para a ordenacao 
-        *  com os algoritmos InsertionSort e SelectionSort
-        */
-
-        //Insert
+        case 2:
+        
+         //Insert
 
         Integer[] vetorInsert = gerarVetorObjetos(tamanhosTesteMedio);
         InsertionSort<Integer> insert = new InsertionSort<>();
@@ -68,14 +78,14 @@ public class App {
         System.out.println("\nVetor ordenado método Insertion:");
         System.out.println("Comparações: " + insert.getComparacoes());
         System.out.println("Movimentações: " + insert.getMovimentacoes());
-        System.out.println("Tempo de ordenação (ms): " + insert.getTempoOrdenacao());]
+        System.out.println("Tempo de ordenação (ms): " + insert.getTempoOrdenacao());
+        break;
+
+        case 3:
 
         /*
-
         --Selection--
-
          */
-
 
         Integer[] vetorSelection = gerarVetorObjetos(tamanhosTestePequeno);
         SelectionSort<Integer> selection = new SelectionSort<>();
@@ -84,7 +94,45 @@ public class App {
         System.out.println("\nVetor ordenado método Selection:");
         System.out.println("Comparações: " + selection.getComparacoes());
         System.out.println("Movimentações: " + selection.getMovimentacoes());
-        System.out.println("Tempo de ordenação (ms): " + selection.getTempoOrdenacao());]
+        System.out.println("Tempo de ordenação (ms): " + selection.getTempoOrdenacao());
+        break;
+        // Merge
+        case 4:
+        Integer[] vetorMerge = gerarVetorObjetos(tamanhosTestePequeno);
+        MergeSortSort<Integer> Merge = new MergeSort<>();
+        Integer[] vetorOrdenadoselection = merge.ordenar(vetorMerge);
 
+        System.out.println("\nVetor ordenado método Merge:");
+        System.out.println("Comparações: " + merge.getComparacoes());
+        System.out.println("Movimentações: " + merge.getMovimentacoes());
+        System.out.println("Tempo de ordenação (ms): " + merge.getTempoOrdenacao());
+         break;
+    
+    }
+
+        //Bolha
+
+
+        
+
+        /* TO DO
+        *Fazer a implementacao do restante do main para a ordenacao 
+        *  com os algoritmos InsertionSort e SelectionSort
+        */
+
+        
+        
+
+
+        // Merge
+
+        Integer[] vetorMerge = gerarVetorObjetos(tamanhosTestePequeno);
+        MergeSortSort<Integer> Merge = new MergeSort<>();
+        Integer[] vetorOrdenadoselection = merge.ordenar(vetorMerge);
+
+        System.out.println("\nVetor ordenado método Merge:");
+        System.out.println("Comparações: " + merge.getComparacoes());
+        System.out.println("Movimentações: " + merge.getMovimentacoes());
+        System.out.println("Tempo de ordenação (ms): " + merge.getTempoOrdenacao());
     }
 }
