@@ -166,8 +166,15 @@ public class AppOficina {
         cabecalho();
         
         int opcao = exibirMenuOrdenadores();
-        //Complete com a sua lógica
+        switch (opcao) {
+            case 1 -> ordenador = new Bubblesort<>();
+            case 2 -> ordenador = new InsertSort<>();
+            case 3 -> ordenador = new SelectionSort<>();
+            case 4 -> ordenador = new Mergesort<>();
+            case 5 -> break;
+        }
         ordenador = null;
+
     }
 
     static void embaralharProdutos(){
@@ -210,5 +217,5 @@ public class AppOficina {
             pausa();
         }while (opcao != 0);
         teclado.close();
-    }                        
+    }
 }
