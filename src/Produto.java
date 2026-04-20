@@ -165,4 +165,8 @@ public abstract class Produto implements Comparable<Produto> {
      * @return Uma string no formato "tipo; descrição;preçoDeCusto;margemDeLucro;[dataDeValidade]"
      */
     public abstract String gerarDadosTexto();
+
+    public String getDescricao() {
+        return this.descricao; // Certifique-se que o nome do atributo aqui seja 'descricao'
+    }
 }

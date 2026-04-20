@@ -37,6 +37,8 @@ public class AppOficina {
     static Produto[] produtos;
     static int quantProdutos = 0;
     static String nomeArquivoDados = "produtos.txt";
+    static Produto[] produtosPorId;
+    static Produto[] produtosPorDescricao;
     static IOrdenador<Produto> ordenador;
 
     // #region utilidades
@@ -128,15 +130,34 @@ public class AppOficina {
 
     static Produto localizarProduto() {
         cabecalho();
-        System.out.println("Localizando um produto");
-        int numero = lerNumero("Digite o identificador do produto", Integer.class);
-        Produto localizado = null;
-        
-        for (int i = 0; i < quantProdutos && localizado == null; i++) {
-            if (produtos[i].hashCode() == numero)
-                localizado = produtos[i];
+        System.out.println("Localizar por:");
+        System.out.println("1 - Código (ID)");
+        System.out.println("2 - Descrição");
+        int tipo = Integer.parseInt(teclado.nextLine());
+
+        if (tipo == 1) {
+            System.out.print("Digite o ID: ");
+            int id = Integer.parseInt(teclado.nextLine());
+            // Criamos um "produto dummy" apenas com o ID para comparar
+            Produto dummy = new ProdutoNaoPerecivel("Busca", 1, 1) {
+                @Override public int getId() { return id; }
+                @Override public int hashCode() { return id; }
+            };
+
+            int pos = pesquisaBinaria(produtosPorId, dummy, new ComparadorPorCodigo());
+            return (pos != -1) ? produtosPorId[pos] : null;
+
+        } else if (tipo == 2) {
+            System.out.print("Digite a Descrição: ");
+            String desc = teclado.nextLine();
+            Produto dummy = new ProdutoNaoPerecivel(desc, 1, 1);
+
+            int pos = pesquisaBinaria(produtosPorDescricao, dummy,
+                    (p1, p2) -> p1.getDescricao().compareToIgnoreCase(p2.getDescricao()));
+            return (pos != -1) ? produtosPorDescricao[pos] : null;
         }
-        return localizado;
+
+        return null;
     }
 
     private static void mostrarProduto(Produto produto) {
@@ -162,21 +183,33 @@ public class AppOficina {
         System.out.println(relatorio.toString());
     }
 
-    static void ordenarProdutos(){
+    static void ordenarProdutos() {
         cabecalho();
-        
+        IOrdenador<Produto> ordenador = null; // Criamos a variável local
+
         int opcao = exibirMenuOrdenadores();
         switch (opcao) {
             case 1 -> ordenador = new Bubblesort<>();
-            case 2 -> ordenador = new InsertSort<>();
-            case 3 -> ordenador = new SelectionSort<>();
+            case 2 -> ordenador = new SelectionSort<>(); // Segui a ordem comum, ajuste se necessário
+            case 3 -> ordenador = new InsertSort<>();
             case 4 -> ordenador = new Mergesort<>();
-            case 5 -> break;
+            case 0 -> { return; } // Caso queira sair do menu
         }
-        ordenador = null;
 
+        if (ordenador != null) {
+            // 1. Executa a ordenação e guarda o resultado em uma cópia
+            Produto[] copiaOrdenada = ordenador.ordenar(produtos);
+
+            // 2. Exibe os relatórios de desempenho (os gets que estão no seu IOrdenador)
+            System.out.println("\n--- Relatório de Ordenação ---");
+            System.out.println("Tempo: " + ordenador.getTempoOrdenacao() + "ms");
+            System.out.println("Comparações: " + ordenador.getComparacoes());
+            System.out.println("Movimentações: " + ordenador.getMovimentacoes());
+
+            // 3. Pergunta se o usuário quer que essa ordem vire a ordem oficial
+            verificarSubstituicao(produtos, copiaOrdenada);
+        }
     }
-
     static void embaralharProdutos(){
         Collections.shuffle(Arrays.asList(produtos));
     }
@@ -217,5 +250,32 @@ public class AppOficina {
             pausa();
         }while (opcao != 0);
         teclado.close();
+    }
+    public static void prepararBuscas() {
+        // Cópia para ordenar por ID (usando a ordem natural/Comparable do Produto)
+        produtosPorId = Arrays.copyOf(produtos, quantProdutos);
+        new Mergesort<Produto>().ordenar(produtosPorId);
+
+        // Cópia para ordenar por Descrição
+        produtosPorDescricao = Arrays.copyOf(produtos, quantProdutos);
+        new Mergesort<Produto>().ordenar(produtosPorDescricao,
+                (p1, p2) -> p1.getDescricao().compareToIgnoreCase(p2.getDescricao()));
+    }
+    /**
+     * Pesquisa binária genérica para encontrar um produto em um vetor ordenado.
+     */
+    static <T> int pesquisaBinaria(T[] vetor, T chave, java.util.Comparator<T> comparador) {
+        int baixo = 0;
+        int alto = vetor.length - 1;
+
+        while (baixo <= alto) {
+            int meio = (baixo + alto) / 2;
+            int comp = comparador.compare(vetor[meio], chave);
+
+            if (comp < 0) baixo = meio + 1;
+            else if (comp > 0) alto = meio - 1;
+            else return meio; // Encontrou
+        }
+        return -1; // Não encontrado
     }
 }
