@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 
 /** 
  * MIT License
- *
+ *aaaaaa
  * Copyright(c) 2025 João Caram <caram@pucminas.br>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
